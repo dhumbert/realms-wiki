@@ -53,7 +53,8 @@
         });
         revs.reverse();
         revs = revs.join("..");
-        location.href = "{{ config.RELATIVE_PATH }}/_compare/{{ name }}/" + revs;
+        var name = encodeURIComponent(encodeURIComponent("{{ name }}"));
+        location.href = "{{ config.RELATIVE_PATH }}/_compare/" + name + "/" + revs;
       });
     });
   </script>

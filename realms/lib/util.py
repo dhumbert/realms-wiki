@@ -52,7 +52,7 @@ def extract_path(file_path):
         return None
     last_slash = file_path.rindex("/")
     if last_slash:
-        return file_path[0, last_slash]
+        return file_path[0:last_slash]
 
 
 def clean_path(path):

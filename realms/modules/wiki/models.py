@@ -9,6 +9,7 @@ from dulwich.repo import NotGitRepository
 from realms.lib.util import to_canonical, cname_to_filename, filename_to_cname
 from realms import cache
 from realms.lib.hook import HookMixin
+from realms.lib.util import mkdir_safe, extract_path
 
 
 class PageNotFound(Exception):
@@ -84,7 +85,11 @@ class Wiki(HookMixin):
         cname = to_canonical(name)
         filename = cname_to_filename(cname)
 
-        with open(self.path + "/" + filename, 'w') as f:
+        if '/' in filename:
+            path = extract_path(filename)
+            mkdir_safe(os.path.join(self.path, path))
+
+        with open(os.path.join(self.path, filename), 'w') as f:
             f.write(content)
 
         if create:

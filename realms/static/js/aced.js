@@ -301,6 +301,7 @@ function Aced(settings) {
     setTheme(profile.theme || options.theme);
     editor.getSession().setMode('ace/mode/' + options.mode);
     if (store.get(editorId()) && store.get(editorId()) != val()) {
+      $('#draft-status').show();
       editor.getSession().setValue(store.get(editorId()));
     }
     editor.getSession().setUseWrapMode(true);

@@ -74,6 +74,7 @@ def edit(name):
     g.assets['js'].append('editor.js')
     return render_template('wiki/edit.html',
                            name=name,
+                           name_safe=name.replace('/', '---'),
                            content=page.get('data'),
                            info=page.get('info'),
                            sha=page.get('sha'),

@@ -190,7 +190,7 @@ a.label {
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 40px 10px 10px 10px;
+  padding: 0px 10px 10px 10px;
   overflow: auto;
   cursor: default;
 }
@@ -207,21 +207,8 @@ a.label {
   line-height: 1.3em;
 }
 
-.floatingheader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  height: 40px;
-  padding: 8px 15px 12px;
-  text-transform: uppercase;
-  color: #333;
-  background-color: #eee;
-}
-
 .editor {
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 @media (max-width:1000px) {
@@ -256,27 +243,6 @@ a.label {
 
   .entry-preview-content {
     display: none;
-    padding: 10px;
-  }
-
-  .entry-markdown .floatingheader, .entry-preview .floatingheader {
-    cursor: pointer;
-    width: 50%;
-    border-right: #fff 2px solid;
-    color: #333;
-    font-weight: normal;
-    background: #EEE;
-    position: absolute;
-    top: -40px;
-    left: 0;
-    box-shadow: rgba(0,0,0,0.1) 0 -2px 3px inset;
-  }
-
-  .entry-preview .floatingheader {
-    right: 0;
-    left: auto;
-    border-right: none;
-    border-left: #fff 2px solid;
   }
 
   .entry-markdown.active header, .entry-preview.active header {

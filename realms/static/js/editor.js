@@ -16,6 +16,17 @@ $entry_preview_header.click(function(){
   $entry_markdown.removeClass('active');
 });
 
+
+function toggle_entry_preview() {
+    $entry_preview.toggle();
+
+    if ($entry_preview.is(':hidden')) {
+        $entry_markdown.css('width', '100%');
+    } else {
+        $entry_markdown.css('width', '50%');
+    }
+}
+
 $(document).on('shaMismatch', function() {
   bootbox.dialog({
     title: "Page has changed",
@@ -53,12 +64,12 @@ $(function(){
     aced.discard();
   });
 
-  $(".entry-markdown .floatingheader").click(function(){
-    aced.editor.focus();
-  });
-
   $("#delete-page-btn").click(function() {
     bootbox.alert("Not Done Yet! Sorry");
+  });
+
+  $("#preview-btn").click(function() {
+      toggle_entry_preview();
   });
 });
 

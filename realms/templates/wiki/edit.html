@@ -40,6 +40,14 @@
     <script src="https://togetherjs.com/togetherjs-min.js"></script>
   {% endif %}
 
+  {% if not config['AUTOMATIC_LIVE_PREVIEW'] %}
+    <script>
+      $(function() {
+          toggle_entry_preview();
+      });
+    </script>
+  {% endif %}
+
 {% endblock %}
 
 {% block body %}
@@ -92,43 +100,14 @@
           </ul>
         </div>
 
-        <div class="dropdown btn-group">
-          <button id="theme-list-btn" type="button" class="dropdown-toggle btn btn-default btn-sm"
-                  data-toggle="dropdown" title="Change Theme">
-            <i class="fa fa-paint-brush"></i>
-            <span class="hidden-xs">Theme <i class="fa fa-caret-down"></i></span>
-          </button>
-          <ul id="theme-list" class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="theme-list">
-            <li><a tabindex="-1" href="#" data-value="chrome" >Chrome</a></li>
-            <li><a tabindex="-1" href="#" data-value="clouds" >Clouds</a></li>
-            <li><a tabindex="-1" href="#" data-value="clouds_midnight" >Clouds Midnight</a></li>
-            <li><a tabindex="-1" href="#" data-value="cobalt" >Cobalt</a></li>
-            <li><a tabindex="-1" href="#" data-value="crimson_editor" >Crimson Editor</a></li>
-            <li><a tabindex="-1" href="#" data-value="dawn" class="selected">Dawn</a></li>
-            <li><a tabindex="-1" href="#" data-value="dreamweaver" >Dreamweaver</a></li>
-            <li><a tabindex="-1" href="#" data-value="eclipse" >Eclipse</a></li>
-            <li><a tabindex="-1" href="#" data-value="idle_fingers" >idleFingers</a></li>
-            <li><a tabindex="-1" href="#" data-value="kr_theme" >krTheme</a></li>
-            <li><a tabindex="-1" href="#" data-value="merbivore" >Merbivore</a></li>
-            <li><a tabindex="-1" href="#" data-value="merbivore_soft" >Merbivore Soft</a></li>
-            <li><a tabindex="-1" href="#" data-value="mono_industrial" >Mono Industrial</a></li>
-            <li><a tabindex="-1" href="#" data-value="monokai" >Monokai</a></li>
-            <li><a tabindex="-1" href="#" data-value="pastel_on_dark">Pastel on Dark</a></li>
-            <li><a tabindex="-1" href="#" data-value="solarized_dark" >Solarized Dark</a></li>
-            <li><a tabindex="-1" href="#" data-value="solarized_light" >Solarized Light</a></li>
-            <li><a tabindex="-1" href="#" data-value="textmate" >TextMate</a></li>
-            <li><a tabindex="-1" href="#" data-value="tomorrow" >Tomorrow</a></li>
-            <li><a tabindex="-1" href="#" data-value="tomorrow_night">Tomorrow Night</a></li>
-            <li><a tabindex="-1" href="#" data-value="tomorrow_night_blue" >Tomorrow Night Blue</a></li>
-            <li><a tabindex="-1" href="#" data-value="tomorrow_night_bright" >Tomorrow Night Bright</a></li>
-            <li><a tabindex="-1" href="#" data-value="tomorrow_night_eighties" >Tomorrow Night 80s</a></li>
-            <li><a tabindex="-1" href="#" data-value="twilight" >Twilight</a></li>
-            <li><a tabindex="-1" href="#" data-value="vibrant_ink" >Vibrant Ink</a></li>
-          </ul>
+        <div class="btn-group">
+          <a id="preview-btn" class="btn btn-info btn-sm">
+            <i class="fa fa-eye"></i>
+            <span class="hidden-xs">Preview</span>
+          </a>
         </div>
 
         <div class="btn-group">
-
           {% if name in config['WIKI_LOCKED_PAGES'] %}
             <a class="btn btn-danger btn-sm">
               <i class="fa fa-lock"></i>
@@ -145,21 +124,14 @@
       </div>
     </div>
 
-    <section class="entry-markdown active">
-      <header class="floatingheader" id="entry-markdown-header">
-        <small>Markdown</small>
-        <a class="markdown-help" href=""><span class="hidden">What is Markdown?</span></a>
-      </header>
+    <section id="entry-markdown" class="entry-markdown active">
       <section id="entry-markdown-content" class="entry-markdown-content">
         <div id="editor-{{ name }}" data-submitbtn='submit-btn' data-themeselect="theme-list" data-mode="markdown"
              data-preview="preview" class="editor">{{ content }}</div>
       </section>
     </section>
 
-    <section class="entry-preview">
-      <header class="floatingheader" id="entry-preview-header">
-        <small>Preview</small>
-      </header>
+    <section id="entry-preview" class="entry-preview">
       <section class="entry-preview-content">
         <div id="preview"></div>
       </section>

@@ -68,6 +68,10 @@
   position: fixed;
 }
 
+a.create-link {
+  color: #e87b7a;
+}
+
 #app-controls {
   margin:0;
 }

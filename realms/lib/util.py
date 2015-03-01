@@ -52,7 +52,7 @@ def extract_path(file_path):
         return None
     last_slash = file_path.rindex("/")
     if last_slash:
-        return file_path[0, last_slash]
+        return file_path[0:last_slash]
 
 
 def clean_path(path):
@@ -92,9 +92,8 @@ def to_canonical(s):
     s = str(s)
     s = re.sub(r"\s\s*", "-", s)
     s = re.sub(r"\-\-+", "-", s)
-    s = re.sub(r"[^a-zA-Z0-9\-]", "", s)
+    s = re.sub(r"[^a-zA-Z0-9\-/]", "", s)
     s = s[:64]
-    s = s.lower()
     return s
 
 

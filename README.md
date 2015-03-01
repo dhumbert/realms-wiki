@@ -15,8 +15,6 @@ Source: https://github.com/scragg0x/realms-wiki
 - Markdown (w/ HTML Support)
 - Syntax highlighting (Ace Editor)
 - Live preview
-- Collaboration (TogetherJS / Firepad)
-- Drafts saved to local storage
 - Handlebars for templates and logic
 
 ## Screenshots

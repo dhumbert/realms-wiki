@@ -3,11 +3,13 @@ import re
 import ghdiff
 import gittle.utils
 import yaml
+from flask import url_for
 from gittle import Gittle
 from dulwich.repo import NotGitRepository
 from realms.lib.util import to_canonical, cname_to_filename, filename_to_cname
 from realms import cache
 from realms.lib.hook import HookMixin
+from realms.lib.util import mkdir_safe, extract_path
 
 
 class PageNotFound(Exception):
@@ -83,7 +85,11 @@ class Wiki(HookMixin):
         cname = to_canonical(name)
         filename = cname_to_filename(cname)
 
-        with open(self.path + "/" + filename, 'w') as f:
+        if '/' in filename:
+            path = extract_path(filename)
+            mkdir_safe(os.path.join(self.path, path))
+
+        with open(os.path.join(self.path, filename), 'w') as f:
             f.write(content)
 
         if create:
@@ -190,6 +196,8 @@ class Wiki(HookMixin):
                 if meta and 'import' in meta:
                     for partial_name in meta['import']:
                         partials[partial_name] = self.get_page(partial_name)
+
+                data['data_parsed'] = self.parse_links(data['data'])
             data['partials'] = partials
             data['info'] = self.get_history(name, limit=1)[0]
             return data
@@ -197,6 +205,29 @@ class Wiki(HookMixin):
         except KeyError:
             # HEAD doesn't exist yet
             return None
+
+    def parse_links(self, content):
+        def replace_link(match):
+            name = match.group(3)
+
+            if match.group(2):  # if we have link text
+                text = match.group(2)
+            else:
+                text = name
+
+            page = self.get_page(name)
+
+            css_class = ""
+
+            if page:
+                url = url_for('wiki.page', name=filename_to_cname(page['path']))
+            else:
+                url = url_for('wiki.create', name=name)
+                css_class = "create-link"
+
+            return '<a class="{}" href="{}">{}</a>'.format(css_class, url, text)
+
+        return re.sub(r'\[\[(([^\[\]]+)\|)?([^\[\]]+)\]\]', replace_link, content)
 
     def get_meta(self, content):
         """Get metadata from page if any.

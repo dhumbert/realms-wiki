@@ -27,43 +27,7 @@ function toggle_entry_preview() {
     }
 }
 
-$(document).on('shaMismatch', function() {
-  bootbox.dialog({
-    title: "Page has changed",
-    message: "This page has changed and differs from your draft.  What do you want to do?",
-    buttons: {
-      ignore: {
-        label: "Ignore",
-        className: "btn-default",
-        callback: function() {
-          var info = aced.info();
-          info['ignore'] = true;
-          aced.info(info);
-        }
-      },
-      discard: {
-        label: "Discard Draft",
-        className: "btn-danger",
-        callback: function() {
-          aced.discard();
-        }
-      },
-      changes: {
-        label: "Show Diff",
-        className: "btn-primary",
-        callback: function() {
-          bootbox.alert("Draft diff not done! Sorry");
-        }
-      }
-    }
-  })
-});
-
 $(function(){
-  $("#discard-draft-btn").click(function() {
-    aced.discard();
-  });
-
   $("#delete-page-btn").click(function() {
     bootbox.alert("Not Done Yet! Sorry");
   });

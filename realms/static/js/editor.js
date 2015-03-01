@@ -67,3 +67,5 @@ var aced = new Aced({
     });
   }
 });
+
+aced.editor.focus();

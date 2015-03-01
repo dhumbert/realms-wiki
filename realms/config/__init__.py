@@ -126,12 +126,6 @@ AUTOMATIC_LIVE_PREVIEW = False
 ALLOW_ANON = True
 REGISTRATION_ENABLED = True
 
-# None, firepad, and/or togetherjs
-COLLABORATION = 'togetherjs'
-
-# Required for firepad
-FIREBASE_HOSTNAME = None
-
 # Page names that can't be modified
 WIKI_LOCKED_PAGES = []
 

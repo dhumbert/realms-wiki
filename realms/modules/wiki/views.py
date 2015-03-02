@@ -1,6 +1,7 @@
 import urllib
 from flask import abort, g, render_template, request, redirect, Blueprint, flash, url_for, current_app
-from flask.ext.login import login_required, current_user
+from flask.ext.login import current_user
+from realms.modules.auth import check_view_access, check_edit_access
 from realms.lib.util import to_canonical, remove_ext
 from .models import PageNotFound
 
@@ -8,6 +9,7 @@ blueprint = Blueprint('wiki', __name__)
 
 
 @blueprint.route("/_commit/<sha>/<path:name>")
+@check_view_access
 def commit(name, sha):
     cname = to_canonical(name)
 
@@ -20,6 +22,7 @@ def commit(name, sha):
 
 
 @blueprint.route("/_compare/<name>/<regex('[^.]+'):fsha><regex('\.{2,3}'):dots><regex('.+'):lsha>")
+@check_view_access
 def compare(name, fsha, dots, lsha):
     name = urllib.unquote(name)
     diff = g.current_wiki.compare(name, fsha, lsha)
@@ -28,7 +31,7 @@ def compare(name, fsha, dots, lsha):
 
 
 @blueprint.route("/_revert", methods=['POST'])
-@login_required
+@check_edit_access
 def revert():
     cname = to_canonical(request.form.get('name'))
     commit = request.form.get('commit')
@@ -56,12 +59,13 @@ def revert():
 
 
 @blueprint.route("/_history/<path:name>")
+@check_view_access
 def history(name):
     return render_template('wiki/history.html', name=name, history=g.current_wiki.get_history(name))
 
 
 @blueprint.route("/_edit/<path:name>")
-@login_required
+@check_edit_access
 def edit(name):
     cname = to_canonical(name)
     page = g.current_wiki.get_page(name)
@@ -83,7 +87,7 @@ def edit(name):
 
 @blueprint.route("/_create/", defaults={'name': None})
 @blueprint.route("/_create/<path:name>")
-@login_required
+@check_edit_access
 def create(name):
     cname = to_canonical(name) if name else ""
     if cname and g.current_wiki.get_page(cname):
@@ -98,12 +102,13 @@ def create(name):
 
 
 @blueprint.route("/_index")
+@check_view_access
 def index():
     return render_template('wiki/index.html', index=g.current_wiki.get_index())
 
 
 @blueprint.route("/<path:name>", methods=['POST', 'PUT', 'DELETE'])
-@login_required
+@check_edit_access
 def page_write(name):
     cname = to_canonical(name)
 
@@ -156,6 +161,7 @@ def page_write(name):
 
 @blueprint.route("/", defaults={'name': None})
 @blueprint.route("/<path:name>")
+@check_view_access
 def page(name):
     name = name if name else current_app.config.get('WIKI_HOME')
 

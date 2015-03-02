@@ -88,7 +88,7 @@ class WikiTest(WikiBaseTest):
         rv1 = self.create_page('test', message='test message', content='testing_old')
         self.update_page('test', message='test message', content='testing_new')
         data = json.loads(rv1.data)
-        self.app.config['ALLOW_ANON'] = False
+        self.app.config['ALLOW_ANON_EDIT'] = False
         self.assert_403(self.update_page('test', message='test message', content='testing_again'))
         self.assert_403(self.client.post(url_for('wiki.revert'), data=dict(name='test', commit=data['sha'])))
 

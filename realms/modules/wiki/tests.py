@@ -24,6 +24,11 @@ class UtilTest(WikiBaseTest):
 
 
 class WikiTest(WikiBaseTest):
+    def test_nonexistent_page_redirects_to_create(self):
+        rv = self.client.get(url_for('wiki.page', name='lorem'))
+        eq_(302, rv.status_code)
+        eq_('http://localhost' + url_for('wiki.create', name='lorem'), rv.headers.get('location'))
+
     def test_routes(self):
         self.assert_200(self.client.get(url_for("wiki.create")))
         self.create_page('test', message='test message', content='testing')
@@ -86,6 +91,13 @@ class WikiTest(WikiBaseTest):
         self.app.config['ALLOW_ANON'] = False
         self.assert_403(self.update_page('test', message='test message', content='testing_again'))
         self.assert_403(self.client.post(url_for('wiki.revert'), data=dict(name='test', commit=data['sha'])))
+
+    def test_default_page(self):
+        self.app.config['WIKI_HOME'] = 'test-home'
+        self.create_page('test-home', message='test message', content='test')
+        self.client.get(url_for('wiki.page'))
+        self.assert_context('name', 'test-home')
+
 
 
 class RelativePathTest(WikiTest):

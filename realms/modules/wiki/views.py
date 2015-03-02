@@ -154,9 +154,11 @@ def page_write(name):
     return dict(sha=sha)
 
 
-@blueprint.route("/", defaults={'name': 'home'})
+@blueprint.route("/", defaults={'name': None})
 @blueprint.route("/<path:name>")
 def page(name):
+    name = name if name else current_app.config.get('WIKI_HOME')
+
     cname = to_canonical(name)
     if cname != name:
         return redirect(url_for('wiki.page', name=cname))

@@ -123,7 +123,8 @@ WIKI_HOME = 'home'
 # Whether to show live preview automatically
 AUTOMATIC_LIVE_PREVIEW = False
 
-ALLOW_ANON = True
+ALLOW_ANON_VIEW = True
+ALLOW_ANON_EDIT = True
 REGISTRATION_ENABLED = True
 
 # Page names that can't be modified
@@ -132,9 +133,6 @@ WIKI_LOCKED_PAGES = []
 ROOT_ENDPOINT = 'wiki.page'
 
 globals().update(read())
-
-# Used by Flask-Login
-LOGIN_DISABLED = ALLOW_ANON
 
 # Depreciated variable name
 LOCKED = WIKI_LOCKED_PAGES[:]

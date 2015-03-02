@@ -60,6 +60,14 @@ var MDR = {
       sanitize = this.sanitize;
     }
     this.md = md;
+
+    // support wiki links. taken from https://github.com/thorbenk/realms-wiki/commit/29ff4853063ad7090f84d7fa5d4c13a15311cb5c
+    var r = /\[\[([^|\[\]]+)\|([^\[\]]+)\]\]/g
+    this.md = this.md.replace(r, "<a href=\"/$2\">$1</a>")
+
+    var r = /\[\[([^|\[\]]+)\]\]/g
+    this.md = this.md.replace(r, "<a href=\"/$1\">$1</a>")
+
     this.processMeta();
     try {
       var html = this.parse(this.md);

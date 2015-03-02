@@ -1,4 +1,5 @@
 from flask import current_app, render_template, request, redirect, Blueprint, flash, url_for
+from flask.ext.login import login_required
 from realms.modules.auth.models import User
 from realms.modules.auth.forms import LoginForm, RegistrationForm
 
@@ -62,6 +63,7 @@ def register():
 
 
 @blueprint.route("/settings", methods=['GET', 'POST'])
+@login_required
 def settings():
     return render_template("auth/settings.html")
 

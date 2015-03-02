@@ -84,13 +84,24 @@ class WikiTest(WikiBaseTest):
         self.assert_403(self.client.post(url_for('wiki.revert'), data=dict(name='test', commit=data['sha'])))
         self.app.config['WIKI_LOCKED_PAGES'] = []
 
-    def test_anon(self):
+    def test_anon_edit(self):
         rv1 = self.create_page('test', message='test message', content='testing_old')
         self.update_page('test', message='test message', content='testing_new')
         data = json.loads(rv1.data)
-        self.app.config['ALLOW_ANON'] = False
+        self.app.config['ALLOW_ANON_EDIT'] = False
         self.assert_403(self.update_page('test', message='test message', content='testing_again'))
         self.assert_403(self.client.post(url_for('wiki.revert'), data=dict(name='test', commit=data['sha'])))
+
+    def test_anon_view(self):
+        self.create_page('test', message='test message', content='testing')
+
+        self.app.config['ALLOW_ANON_VIEW'] = True
+        self.assert_200(self.client.get(url_for('wiki.page', name='test')))
+
+        self.app.config['ALLOW_ANON_VIEW'] = False
+        rv = self.client.get(url_for('wiki.page', name='test'))
+        self.assertEqual(302, rv.status_code)
+        self.assertTrue('login' in rv.headers.get('location'))
 
     def test_default_page(self):
         self.app.config['WIKI_HOME'] = 'test-home'

@@ -69,8 +69,8 @@ def module_exists(module_name):
               default=config.WIKI_PATH,
               prompt='Enter wiki data directory.',
               help='Wiki Directory (git repo)')
-@click.option('--allow-anon',
-              default=config.ALLOW_ANON,
+@click.option('--allow-anon-edit',
+              default=config.ALLOW_ANON_EDIT,
               is_flag=True,
               prompt='Allow anonymous edits?')
 @click.option('--registration-enabled',

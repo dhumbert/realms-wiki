@@ -299,7 +299,7 @@ def start_server():
     else:
         yellow("Using default configuration")
 
-    Popen("gunicorn 'realms:create_app()' -b 0.0.0.0:%s -k gevent %s" %
+    Popen("gunicorn 'realms:create_app()' -b 127.0.0.1:%s -k gevent %s" %
           (config.PORT, flags), shell=True, executable='/bin/bash')
 
 

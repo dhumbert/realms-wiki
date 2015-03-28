@@ -118,6 +118,10 @@ def filename_to_cname(filename):
     return os.path.splitext(filename)[0]
 
 
+def directory_file_listing(path):
+    return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+
 def gravatar_url(email):
     return "//www.gravatar.com/avatar/" + hashlib.md5(email).hexdigest()
 

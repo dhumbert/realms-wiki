@@ -23,17 +23,9 @@ def _link(match, wiki):
     else:
         text = name
 
-    page = wiki.get_page(name)
+    url = url_for('wiki.page', name=filename_to_cname(name))
 
-    css_class = ""
-
-    if page:
-        url = url_for('wiki.page', name=filename_to_cname(page['path']))
-    else:
-        url = url_for('wiki.create', name=name)
-        css_class = "create-link"
-
-    return '<a class="{}" href="{}">{}</a>'.format(css_class, url, text)
+    return '<a href="{}">{}</a>'.format(url, text)
 
 
 def parse(content, wiki):
